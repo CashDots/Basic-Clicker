@@ -1,0 +1,75 @@
+from kivy.uix.button import Button
+from kivy.uix.label import Label
+from kivy.uix.floatlayout import FloatLayout
+from kivy.app import App
+import time
+
+global facs
+facs = 0
+global facsmoney
+facsmoney = 100
+global facmoney
+facmoney = facs * 10
+global money
+money = 100
+class Main(FloatLayout):
+	def __init__ (self,*args, **kwargs):
+		super().__init__(*args , **kwargs)
+		global money
+		mon = Label(text = 'Money:'+ str(money),
+										size_hint = (.1, .1),
+										pos = (10, 440))
+		def mir(event):
+			global money
+			money += 1
+			mon.text = 'Money:'+ str(money)
+		button = Button(text = 'Make Money!!',
+										size_hint = (.3, .3),
+										pos = (300, 175),
+										on_press = mir)
+		def shopping(event):
+			if shop.text == 'Shop?':
+				shop.text = 'Back?'
+				self.remove_widget(button)
+				self.add_widget(factory)
+			elif shop.text == 'Back?':
+				shop.text = 'Shop?'
+				self.add_widget(button)
+				self.remove_widget(factory)
+		shop = Button(text = 'Shop?',
+									size_hint = (.1, .1),
+									pos = (0,0),
+									on_press = shopping)
+		def factories(event):
+			global money
+			global facsmoney
+			global facs
+			if money >= facsmoney:
+				money -= facsmoney
+				facs += 1
+				facsmoney * 1.5
+				mon.text = 'Money:' + str(money)
+				faclabel.text = 'Factories:' + str(facs)
+				global facmoney
+				facmoney = facs * 10
+		factory = Button(text = 'Buy Factory',
+										size_hint = (.2, .1),
+										pos = (100, 0),
+										on_press = factories)
+		global facs
+		faclabel = Label(text = 'Factories:' + str(facs),
+										size_hint = (.1,.1),
+										pos = (150, 440))
+		while facs > 0:
+			money + facmoney
+			mon.text = 'Money:' + str(money)
+			time.sleep(4)
+		self.add_widget(faclabel)
+		self.add_widget(shop)
+		self.add_widget(mon)
+		self.add_widget(button)
+class MyApp(App):
+	def build(self):
+		return Main()
+while True:
+	MyApp().run()
